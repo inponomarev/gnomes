@@ -1,0 +1,55 @@
+openapi: 3.0.1
+info:
+  title: "ClickMatters"
+  description: |
+    Click Matters UI backend
+  version: "0.1"
+tags:
+  - name: menu
+    description: Everything about menu
+
+paths:
+  /menu:
+    get:
+      tags:
+        - menu
+      summary: Get menu items
+      operationId: getMenu
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                title: MenuDTO
+                properties:
+                  menu_items:
+                    nullable: false
+                    description: "Menu items"
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MenuItemDTO"
+        403:
+          description: Not authorized
+          content: {}
+components:
+  schemas:
+    MenuItemDTO:
+      type: object
+      title: MenuItemDTO
+      properties:
+        id:
+          description: "Menu item id"
+          type: string
+          nullable: false
+        name:
+          description: "Menu item name"
+          type: string
+          nullable: false
+        menu_items:
+          description: "Menu items"
+          type: array
+          nullable: false
+          items:
+            $ref: "#/components/schemas/MenuItemDTO"

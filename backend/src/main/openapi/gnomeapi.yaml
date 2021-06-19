@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: "Gnome API"
+  description: |
+    Gnome Backend
+  version: "0.1"
+paths:
+  /api/v1/login:
+    post:
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDTO"
+        required: true
+      responses:
+        "200":
+          description: login successful
+  /api/v1/getplan:
+    get:
+      operationId: secretplan
+      responses:
+        "200":
+          description: record created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretPlanDTO'
+
+components:
+  schemas:
+    LoginDTO:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    SecretPlanDTO:
+      type: object
+      properties:
+        points:
+          type: array
+          items:
+            type: string
