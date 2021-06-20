@@ -5,6 +5,8 @@
       <p>Пароль<input name="bbbb" v-model="password"/></p>
     </form>
     <button @click="submit()">Click me</button>
+
+    <p>Secret plan: {{ plan }}</p>
   </div>
 </template>
 
@@ -24,19 +26,31 @@ export default defineComponent({
     return {
       login: '' as string,
       password: '' as string,
+      plan: '' as string,
     };
   },
   methods: {
-    submit() {
-      api.login({
+    async submit() {
+      const response = await api.login({
         login: this.login,
         password: this.password,
-      }).then((response) => {
-        if (response.status === 200) {
-          window.alert('success');
-        }
       });
+      /* Вот тут мы по идее должны:
+      1. перейти на другую страницу
+      2. на другой странице уже показывать секретный план
+      3. Но самое главное: мы должны использовать авторизацию при обращении к api.secretplan!
+       */
+      if (response.status === 200) {
+        const planReply = await api.secretplan();
+        this.plan = planReply.data.points?.join('.') || '';
+      }
     },
   },
 });
 </script>
+
+<style>
+.hidden {
+  display: none !important;
+}
+</style>
