@@ -14,7 +14,16 @@ public class ControllerImpl implements ee.lagao.testbackend.api.controller.Contr
 
     @Override
     public void login(LoginDTO request, HttpServletResponse response) {
-        System.out.printf("Login: %s-%s%n", request.getLogin(), request.getPassword());
+        if ("admin".equals(request.getLogin())
+                && "admin".equals(request.getPassword())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        System.out.printf("Login: %s, Password: %s, Status: %d%n",
+                request.getLogin(),
+                request.getPassword(),
+                response.getStatus());
     }
 
     @Override
