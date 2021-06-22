@@ -4,6 +4,8 @@ import ee.lagao.testbackend.api.dto.LoginDTO;
 import ee.lagao.testbackend.api.dto.LoginResultDTO;
 import ee.lagao.testbackend.api.dto.SecretPlanDTO;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class ControllerImpl implements Controller {
 
     @Override
