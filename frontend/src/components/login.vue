@@ -13,6 +13,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { API } from '@/api';
+import apiStore from '@/api/store';
 
 export default defineComponent({
 
@@ -26,7 +27,7 @@ export default defineComponent({
 
   methods: {
     async submit() {
-/*    // TODO:
+      // TODO:
       apiStore.dispatch(AUTH_REQUEST, { this.login, this.password }).then(
         () => {
           const planReply = await API.secretplan();
@@ -35,21 +36,21 @@ export default defineComponent({
         (errorMessage) => {
           window.alert(errorMessage)
         })
-
- */
+/*
       const response = await API.login({
         login: this.login,
         password: this.password,
       });
-      /* Вот тут мы по идее должны:
+      / * Вот тут мы по идее должны:
       1. перейти на другую страницу
       2. на другой странице уже показывать секретный план
       3. Но самое главное: мы должны использовать авторизацию при обращении к API.secretplan!
-       */
+       * /
       if (response.status === 200) {
         const planReply = await API.secretplan();
         this.plan = planReply.data.points?.join('.') || '';
       }
+*/
     },
   },
 
