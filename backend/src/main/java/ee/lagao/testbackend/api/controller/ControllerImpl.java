@@ -1,6 +1,7 @@
 package ee.lagao.testbackend.api.controller;
 
 import ee.lagao.testbackend.api.dto.LoginDTO;
+import ee.lagao.testbackend.api.dto.LoginResultDTO;
 import ee.lagao.testbackend.api.dto.SecretPlanDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,20 +11,25 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ControllerImpl implements ee.lagao.testbackend.api.controller.Controller {
+public class ControllerImpl implements Controller {
 
     @Override
-    public void login(LoginDTO request, HttpServletResponse response) {
+    public LoginResultDTO login(LoginDTO request, HttpServletResponse response) {
+        LoginResultDTO result = new LoginResultDTO();
         if ("admin".equals(request.getLogin())
                 && "admin".equals(request.getPassword())) {
+            result.setSessionId("dead-beef");
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
-        System.out.printf("Login: %s, Password: %s, Status: %d%n",
+        System.out.printf("Login: %s, Password: %s, Status: %d, SessionId: %s%n",
                 request.getLogin(),
                 request.getPassword(),
-                response.getStatus());
+                response.getStatus(),
+                result.getSessionId());
+
+        return result;
     }
 
     @Override

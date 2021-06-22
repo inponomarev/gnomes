@@ -3,7 +3,7 @@ info:
   title: "Gnome API"
   description: |
     Gnome Backend
-  version: "0.1"
+  version: "0.2"
 paths:
   /api/v1/login:
     post:
@@ -17,6 +17,10 @@ paths:
       responses:
         "200":
           description: login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResultDTO'
   /api/v1/getplan:
     get:
       operationId: secretplan
@@ -44,3 +48,8 @@ components:
           type: array
           items:
             type: string
+    LoginResultDTO:
+      type: object
+      properties:
+        session_id:
+          type: string
