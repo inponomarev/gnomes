@@ -29,19 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setLogin("admin");
         loginDTO.setPassword("admin");
-        /*UserDetails userDetails =
-                User.builder()
-                        .passwordEncoder(passwordEncoder::encode)
-                        .username("admin")
-                        .password("admin")
-                        .authorities(emptyList())
-                        .build();
-
-         */
         users.put(loginDTO.getLogin(), loginDTO);
     }
 
-    //TODO put a user to this map
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginDTO loginDTO = users.get(username);
