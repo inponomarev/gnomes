@@ -72,6 +72,7 @@ export default defineComponent({
           password: this.user.password,
         } as LoginDTO);
         apiStore.commit(MutationType.Login, response.data);
+        API.updateAccessToken();
         this.loading = false;
         this.$router.push('/user');
       } catch (err) {

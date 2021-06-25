@@ -17,12 +17,11 @@ export default defineComponent({
     return {
       plan: [] as Array<string>,
       token: apiStore.state.token,
-      conf: apiStore.state.getHeaders(),
     };
   },
 
   async created() {
-    const response = await API.secretplan(apiStore.state.getHeaders());
+    const response = await API.secretplan();
     this.plan = response.data.points ?? [];
   },
 });
