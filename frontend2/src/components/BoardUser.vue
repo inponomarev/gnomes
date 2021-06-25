@@ -10,19 +10,19 @@
 <script lang="ts">
 import { API } from '@/apiconf';
 import { defineComponent } from 'vue';
-import store from '@/store';
+import apiStore from '@/apistore';
 
 export default defineComponent({
   data() {
     return {
       plan: [] as Array<string>,
-      token: store.state.token,
-      conf: store.state.getHeaders(),
+      token: apiStore.state.token,
+      conf: apiStore.state.getHeaders(),
     };
   },
 
   async created() {
-    const response = await API.secretplan(store.state.getHeaders());
+    const response = await API.secretplan(apiStore.state.getHeaders());
     this.plan = response.data.points ?? [];
   },
 });

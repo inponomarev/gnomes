@@ -56,23 +56,23 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import { State } from '@/store/state';
-import store from '@/store';
-import { MutationType } from '@/store/mutations';
+import { State } from '@/apistore/state';
+import apiStore from '@/apistore';
+import { MutationType } from '@/apistore/mutations';
 
 export default defineComponent({
   computed: {
     currentUser() {
-      return (store.state as State).currentUser;
+      return (apiStore.state as State).currentUser;
     },
     isLoggedIn() {
-      return (store.state as State).loggedIn;
+      return (apiStore.state as State).loggedIn;
     },
   },
 
   methods: {
     logOut() {
-      store.commit(MutationType.Logout);
+      apiStore.commit(MutationType.Logout);
       this.$router.push('/login');
     },
   },

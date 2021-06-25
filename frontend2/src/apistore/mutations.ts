@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import { LoginResultDTO } from '@/apiclient';
-import { State } from '@/store/state';
+import { State } from '@/apistore/state';
 
 // eslint-disable-next-line no-shadow
 export enum MutationType {

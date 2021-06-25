@@ -48,8 +48,8 @@
 import { API } from '@/apiconf';
 import { defineComponent } from 'vue';
 import { LoginDTO } from '@/apiclient';
-import { MutationType } from '@/store/mutations';
-import store from '@/store';
+import { MutationType } from '@/apistore/mutations';
+import apiStore from '@/apistore';
 
 export default defineComponent({
   data() {
@@ -71,7 +71,7 @@ export default defineComponent({
           login: this.user.login,
           password: this.user.password,
         } as LoginDTO);
-        store.commit(MutationType.Login, response.data);
+        apiStore.commit(MutationType.Login, response.data);
         this.loading = false;
         this.$router.push('/user');
       } catch (err) {
