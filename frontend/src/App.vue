@@ -6,11 +6,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import login from './components/login.vue';
+import Login from './components/Login.vue';
 
 export default defineComponent({
   components: {
-    login,
+    Login,
   },
 });
 

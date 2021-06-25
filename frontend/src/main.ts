@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { apiStore } from '@/api/store';
 import App from './App.vue';
 
 /*
@@ -9,4 +10,7 @@ if (sessionId) {
 }
 */
 
-createApp(App).mount('#app');
+const app = createApp(App);
+app.use(apiStore);
+
+app.mount('#app');
