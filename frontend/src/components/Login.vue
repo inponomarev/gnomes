@@ -4,7 +4,8 @@
       <p>Логин<input name="aaaa" v-model="login"/></p>
       <p>Пароль<input name="bbbb" v-model="password"/></p>
     </form>
-    <button @click="submit()">Click me</button>
+    <button @click="doLogin()">Log in</button>
+    <button @click="doLogout()">Log out</button>
 
     <p>Secret plan: {{ plan }}</p>
   </div>
@@ -12,8 +13,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { apiStore } from '@/api/store';
-import { AUTH_REQUEST } from '@/api/store/auth/auth-actions';
+import apiStore from '@/api/store';
+import { AUTH_REQUEST, AUTH_LOGOUT } from '@/api/store/auth/auth-actions';
 import { API } from '@/api';
 
 export default defineComponent({
@@ -26,17 +27,32 @@ export default defineComponent({
     };
   },
 
+  mounted() {
+    if (apiStore.getters.isAuthenticated) {
+      this.setPlan();
+    }
+  },
+
   methods: {
 
-    async submit() {
-      window.console.log('***1');
-
+    async doLogin() {
       apiStore.dispatch(AUTH_REQUEST, { login: this.login, password: this.password }).then(
         () => {
           this.setPlan();
         },
-        (/* errorMessage: string */) => {
-          // window.alert(errorMessage);
+        (error: Error) => {
+          window.alert(error);
+        },
+      );
+    },
+
+    async doLogout() {
+      apiStore.dispatch(AUTH_LOGOUT).then(
+        () => {
+          this.hidePlan();
+        },
+        (error: Error) => {
+          window.alert(error);
         },
       );
     },
@@ -44,6 +60,10 @@ export default defineComponent({
     async setPlan() {
       const planReply = await API.secretplan();
       this.plan = planReply.data.points?.join('.') || '';
+    },
+
+    async hidePlan() {
+      this.plan = '';
     },
   },
 

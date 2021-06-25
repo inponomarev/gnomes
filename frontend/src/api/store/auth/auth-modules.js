@@ -9,6 +9,10 @@ const state = {
   isLoadedOnce: false,
 };
 
+if (state.sessionId) {
+  API.setSessionId(state.sessionId);
+}
+
 const getters = {
   isAuthenticated: (state) => (!!state.sessionId),
   isLoadedOnce: (state) => state.isLoadedOnce,
@@ -16,39 +20,32 @@ const getters = {
 
 const actions = {
   [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
-    return new Promise((resolve, reject) => { // The Promise used for router redirect in login
+    // The Promise used for router redirect in login
+    return new Promise((resolve, reject) => {
       API.login({
-        login: user.username,
+        login: user.login,
         password: user.password,
       }).then((resp) => {
-        window.console.log('***', resp);
-        /*
-        const sessionId = resp.data.sessionId
-        // store the session id in localstorage
-        localStorage.setItem('session-id', sessionId)
-        // add the axios default header
-        // TODO: API.setSessionId()
-        apiAxios.defaults.headers.common['Authorization'] = 'Bearer ' + sessionId
-        commit(AUTH_SUCCESS, sessionId)
+        const sessionId = resp.data.token;
+        // store the session id in local storage
+        localStorage.setItem('session-id', sessionId);
+        API.setSessionId(sessionId);
+        commit(AUTH_SUCCESS, sessionId);
         // you have your session id, now log in your user :)
-        dispatch(USER_REQUEST)
-        resolve(resp)
-        */
+        // dispatch(USER_REQUEST)
+        resolve(resp);
+      }).catch((err) => {
+        commit(AUTH_ERROR);
+        window.console.error('API.login()', err);
+        // if the request fails, remove any possible session id if possible
+        localStorage.removeItem('session-id'); // localStorage.clear()
+        const status = err.request.status;
+        if (status === 401) {
+          reject(new Error('Incorrect login and/or password'));
+        } else {
+          reject(new Error(`Server connection error: ${status}`));
+        }
       });
-      /*
-      .catch((err) => {
-          commit(AUTH_ERROR)
-          window.console.error('POST auth/login', err)
-          // if the request fails, remove any possible session id if possible
-          localStorage.removeItem('session-id') // localStorage.clear()
-          const status = err.request.status
-          if (status == 401) {
-            reject('Incorrect login and/or password')
-          } else {
-            reject('Server connection error: ' + status)
-          }
-        })
-      */
     });
   },
 
@@ -62,16 +59,7 @@ const actions = {
 
     commit(AUTH_LOGOUT);
 
-    // TODO: API.logout()
-    /*
-    apiAxios.post("auth/logout", null, {
-      params: {
-        sessionId: sessionId
-      }
-    }).catch((err) => {
-      window.console.error('POST auth/logout', err)
-    })
-    */
+    // TODO: API.logout();
   },
 
 };
